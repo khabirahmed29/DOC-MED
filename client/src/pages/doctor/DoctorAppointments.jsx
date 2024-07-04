@@ -94,10 +94,17 @@ const DoctorAppointments = () => {
     },
   ];
   return (
-    <Layout>
-      <h1>Appoinmtnets Lists</h1>
+    <div>
+      <Layout />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <h1>Appointments Lists</h1>
       <Table columns={columns} dataSource={appointments} />
-    </Layout>
+    </div>
   );
 };
 

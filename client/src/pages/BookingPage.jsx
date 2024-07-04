@@ -35,7 +35,6 @@ const BookingPage = () => {
     }
   };
 
-
   // ============ handle availiblity
   const handleAvailability = async () => {
     try {
@@ -67,7 +66,7 @@ const BookingPage = () => {
   const handleBooking = async () => {
     try {
       setIsAvailable(true);
-      if(!date && !time){
+      if (!date && !time) {
         return alert("Date & Time Required");
       }
       dispatch(showLoading());
@@ -102,7 +101,14 @@ const BookingPage = () => {
     //eslint-disable-next-line
   }, []);
   return (
-    <Layout>
+    <div>
+      <Layout />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <h3>Booking Page</h3>
       <div className="container m-2">
         {doctors && (
@@ -119,9 +125,9 @@ const BookingPage = () => {
               <DatePicker
                 className="m-2"
                 format="DD-MM-YYYY"
-                onChange={(value) =>{
-                  setIsAvailable(false)
-                  setDate(moment(value).format("DD-MM-YYYY"))
+                onChange={(value) => {
+                  setIsAvailable(false);
+                  setDate(moment(value).format("DD-MM-YYYY"));
                 }}
               />
               <TimePicker
@@ -131,20 +137,22 @@ const BookingPage = () => {
                   setTime(moment(value).format("HH:mm"));
                 }}
               />
-              <button className="btn btn-primary mt-2" onClick={handleAvailability}>
+              <button
+                className="btn btn-primary mt-2"
+                onClick={handleAvailability}
+              >
                 Check Availability
               </button>
               {!isAvailable && (
                 <button className="btn btn-dark mt-2" onClick={handleBooking}>
-                Book Now
-              </button>
+                  Book Now
+                </button>
               )}
-              
             </div>
           </div>
         )}
       </div>
-    </Layout>
+    </div>
   );
 };
 
