@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Row } from "antd";
 import DoctorList from "./DoctorList";
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -29,12 +28,15 @@ const Doctors = () => {
   }, []);
   return (
     <section>
-      <div className="box-container">
+      <div className="library">
         <h3 className="sub-heading"> Our Doctors </h3>
         <h1 className="heading"> Best around you </h1>
-        <Row>
+        {/* <Row className="">
+         */}
+        <div className="box-container">
           {doctors && doctors.map((doctor) => <DoctorList doctor={doctor} />)}
-        </Row>
+        </div>
+        {/* </Row> */}
       </div>
     </section>
   );

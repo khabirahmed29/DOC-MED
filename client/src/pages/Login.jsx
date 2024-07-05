@@ -1,10 +1,12 @@
 import React from "react";
-import "../styles/RegisterStyles.css";
+// import "../styles/RegisterStyles.css";
 import { Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { login2 } from "../assets";
+import "../styles/log.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,28 +32,52 @@ const Login = () => {
     }
   };
   return (
-    <div className="form-container ">
-      <Form
-        layout="vertical"
-        onFinish={onfinishHandler}
-        className="register-form"
-      >
-        <h3 className="text-center">Login From</h3>
-
-        <Form.Item label="Email" name="email">
-          <Input type="email" required />
-        </Form.Item>
-        <Form.Item label="Password" name="password">
-          <Input type="password" required />
-        </Form.Item>
-        <Link to="/register" className="m-2">
-          Not a user Register here
-        </Link>
-        <button className="btn btn-primary" type="submit">
-          Login
-        </button>
-      </Form>
-    </div>
+    <section className="sign-up" id="sign-up">
+      <div className="row">
+        <div className="image ">
+          <img src={login2} alt="" />
+        </div>
+        <div className="form">
+          <Link to="/login" className="logon">
+            <a class="logon">
+              <i class="fa-solid fa-user-doctor"></i> DOCMED
+            </a>
+          </Link>
+          <br />
+          <br />
+          <br />
+          <h3 className="sub-heading">Login to your account</h3>
+          <div className="input-form ">
+            <Form
+              layout="vertical"
+              onFinish={onfinishHandler}
+              className="form2"
+            >
+              <Form.Item name="email">
+                <Input placeholder="email" type="email" id="email" required />
+              </Form.Item>
+              <Form.Item name="password">
+                <Input
+                  placeholder="password"
+                  type="password"
+                  id="password"
+                  required
+                />
+              </Form.Item>
+              <button className="btn" type="submit">
+                Login
+              </button>
+              <p>
+                New to DOCMED ?{" "}
+                <a className="signUp">
+                  <Link to="/register"> Join Now</Link>
+                </a>
+              </p>
+            </Form>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

@@ -63,7 +63,7 @@ section:nth-child(even):not(:last-child){
 
 .heading{
   text-align: center;
-  color:rgb(0, 0, 0, 0.2);
+  color:rgba(0, 0, 0, 0.71);
   font-size: 3rem;
   padding-bottom: 2rem;
   font-size: 6rem;
@@ -80,10 +80,51 @@ section:nth-child(even):not(:last-child){
   cursor: pointer;
   padding:.8rem 3rem;
 }
+.btn-approve{
+  margin-top: 1rem;
+  display: inline-block;
+  font-size: 1.7rem;
+  color:#fff;
+  background: rgb(5, 107, 5);
+  border-radius: .5rem;
+  cursor: pointer;
+  padding:.8rem 3rem;
+}
+.btn-reject{
+  margin-top: 1rem;
+  display: inline-block;
+  font-size: 1.7rem;
+  color:#fff;
+  background: rgba(148, 22, 5, 0.897);
+  border-radius: .5rem;
+  cursor: pointer;
+  padding:.8rem 3rem;
+}
 
 .btn:hover{
   background: var(--colour);
+  color:#fff;
   /* letter-spacing: .1rem; */
+}
+.btn-approve:hover{
+  margin-top: 1rem;
+  display: inline-block;
+  font-size: 1.7rem;
+  color:#fff;
+  background: rgb(22, 157, 22);
+  border-radius: .5rem;
+  cursor: pointer;
+  padding:.8rem 3rem;
+}
+.btn-reject:hover{
+  margin-top: 1rem;
+  display: inline-block;
+  font-size: 1.7rem;
+  color:#fff;
+  background: rgba(207, 53, 33, 0.897);
+  border-radius: .5rem;
+  cursor: pointer;
+  padding:.8rem 3rem;
 }
 
 header{
@@ -220,7 +261,12 @@ header .icons #menu-bars{
   gap:2rem; 
   padding-top: 9rem;
 }
-
+.card-top{
+  background-color: #47a3d4;
+  color: #fff;
+  height: 4rem;
+  font-size: 2rem;
+}
 .home .home-slider .slide .content{
   flex:1 1 45rem;
 }
@@ -533,7 +579,7 @@ span{
   line-height: 1.8;
   color:var(--light-color);
 }
-/* 
+
 .order form{
   max-width:90rem;
   border-radius: .5rem;
@@ -585,7 +631,7 @@ span{
 
 .order form .btn{
   margin-top: 0;
-} */
+}
 .footer{
   background-color: black;
 }

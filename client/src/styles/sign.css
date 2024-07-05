@@ -1,0 +1,468 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap');
+
+:root{
+    --colour:#47a3d4;
+    --tnavcolour:#a0daeb;
+    --gold:#E6B325;
+    --black:#0F0E0E;
+    --light-color:#666;
+    --transparent: rgba(249, 250, 253, 0);
+    --box-shadow:0 .5rem 1.5rem rgba(0,0,0,.1);
+}
+
+*{
+    font-family: 'Merriweather', serif;
+    margin:0; padding:0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none; border:none;
+    /* text-transform: capitalize;
+    transition: all .2s linear; */
+    /* overflow-y: hidden; */
+}
+
+html{
+    font-size: 62.5%; 
+    overflow-x: hidden;
+    scroll-padding-top: 5.5rem;
+    scroll-behavior: smooth;
+}
+
+section{
+    padding:2rem 9%;
+}
+
+section:nth-child(even):not(:last-child){
+    background:#92cdd8;
+}
+
+.sub-heading{
+    text-align: center;
+    color:var(--colour);
+    font-size: 2rem;
+    padding-top: 1rem;
+    
+}
+
+.heading{
+    text-align: center;
+    color:rgb(0, 0, 0, 0.2);
+    font-size: 3rem;
+    padding-bottom: 2rem;
+    font-size: 6rem;
+    text-transform: uppercase;
+}
+
+.btn{
+    margin-top: 1rem;
+    display: inline-block;
+    font-size: 1.7rem;
+    color:#fff;
+    background: var(--black);
+    border-radius: .5rem;
+    cursor: pointer;
+    padding:.8rem 3rem;
+}
+
+.btn:hover{
+    background: var(--colour);
+    /* letter-spacing: .1rem; */
+}
+
+
+/* Sign up // login form */
+
+.sign-up{
+    background-color: rgb(160, 218, 235);
+    height: 100vh;
+}
+.sign-up .row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 4rem 0rem;
+    height: 58rem;
+}
+
+.sign-up .row .image{
+    flex:1 1 45rem;
+}
+
+.sign-up .row .image img{ 
+    height: 57rem;
+    width: 45rem;
+    border-radius: 3rem;
+    padding-left: 1rem;
+}
+
+.sign-up .row .form{
+    flex:1 1 45rem;
+    height: 57rem;
+    max-width: 90rem;
+    border-radius: 3rem;
+    box-shadow: var(--box-shadow);
+    border: 0.1rem solid rgba(0,0,0,.2);
+}
+.sign-up .row .form .logo {
+    color: var(--black);
+    font-size: 3.2rem;
+    font-weight: bolder;
+    margin: 19.1rem;
+}
+
+.sign-up .row .form .logo i{
+    color:var(--colour);
+}
+
+
+.sign-up .row .form h3{
+    color:var(--black);
+    font-size: 4rem;
+    padding:.5rem 0;
+}
+
+.sign-up .row .form p{
+    color:var(--light-color);
+    font-size: 1.5rem;
+    padding:.5rem 0;
+    line-height: 2;
+    text-align: center
+}
+.sign-up .row .form .or{
+    color:var(--light-color);
+    font-size: 1.5rem;
+    padding:.5rem 0;
+    line-height: 2;
+    text-align: center
+}
+.sign-up .row .form .or:before,
+.sign-up .row .form .or:after {
+    background-color: #000;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 40%;
+}
+.sign-up .row .form .or:before {
+    right: 0.5em;
+    margin-left: -50%;
+}
+
+.sign-up .row .form .or:after {
+    left: 0.5em;
+    margin-right: -50%;
+}
+
+.sign-up .row .form  .icons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:1rem;
+    flex:1 1 17rem;
+    padding:2.5rem 2.5rem;
+}
+
+.sign-up .row .form .icons i{
+    font-size: 3rem;
+    color:var(--colour);
+    width: 7rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+}
+
+.sign-up .row .form .input-form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.sign-up .row .form .input-form form {
+    width: 100%;
+    height: 18rem;
+}
+.sign-up .row .form .input-form form input {
+    margin: 1rem 8.5rem;
+    width: 70%;
+    background: #eee;
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 1.6rem;
+    color: var(--black);
+    text-transform: none;
+}
+
+.sign-up .row .form .input-form form .btn{
+    margin: 0 22.8rem;
+}
+
+.sign-up .row .form .signUp {
+    color: #3146e9;
+    text-decoration: none;
+}
+
+.sign-up .row .form .signUp:hover {
+    color:var(--black);
+    text-decoration: underline;
+}
+.login{
+    margin-top: 5rem;
+    /* padding: 5rem 0; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* media queries  */
+@media (max-width:1200px){
+    .sign-up .row {
+        margin: 6rem 0rem;
+    }
+    .sign-up .row .form{
+        max-width: 50rem;
+    }
+    .sign-up .row .form .logo {
+        margin: 0 15rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 7.5rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0 18.8rem;
+    }
+
+}
+@media (max-width:1050px){
+    .sign-up .row {
+        margin: -1.5rem 0rem;
+    }
+    .sign-up .row .image img {
+        height: 55rem;
+        width: 42rem;
+    }
+    .sign-up .row .form{
+        max-width: 37.4rem;
+    }
+    .sign-up .row .form .logo {
+        margin: 0 9.5rem;
+    }
+    .sign-up .row .form {
+        height: 55rem;
+    }
+    .sign-up .row .form .icons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        flex: 1 1 17rem;
+        padding: 0.5rem 2.5rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 5.5rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0 13.8rem;
+    }
+
+}
+
+@media (max-width:991px){
+
+    html{
+        font-size: 55%;
+    }
+    
+    .sign-up .row {
+        margin: 8vh 10.5vw;
+        height: 80vh;
+    }
+    .sign-up .row .image{
+        display: none;
+    }
+    .sign-up .row .form {
+        height: 70vh;
+        max-width: 75vw;
+    }
+    .sign-up .row .form .logo {
+        margin: 0 25.7rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 10.3rem;
+    }
+    .sign-up .row .form .input-form form {
+        width: 100%;
+        height: 18rem;
+        margin-top: 6rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0px 29.5rem;
+        /* position: fixed; */
+    }
+
+
+}
+
+@media (max-width:768px){
+    html{
+        font-size: 55%;
+    }
+    .sign-up{
+        overflow-x: hidden;
+        height: 100vh;
+    }
+    .sign-up .row {
+        margin: 8vh 6.5vw;
+        height: 80vh;
+        width: 80vw;
+    }
+    .sign-up .row .form {
+        height: 74vh;
+        max-width: 80vw;
+    }
+    .sign-up .row .form .icons i {
+        font-size: 4rem;
+        color: var(--colour);
+        width: 7rem;
+        height: 4rem;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2rem;
+        overflow: visible;
+    }
+    .sign-up .row .form .logo {
+        margin: 0 25.2rem;
+    }
+    .sign-up .row .form .logo i {
+        color: var(--colour);
+        margin: 0 0.6rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 6.3rem;
+        width: 57rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0px 27.9rem;
+        width: 14rem;
+    }
+}
+@media (max-width:540px){
+    html{
+        font-size: 55%;
+    }
+    .sign-up {
+        overflow: hidden;
+        height: 100vh;
+    }
+    .sign-up .row {
+        margin: 8vh 6.5vw;
+        height: 85vh;
+        width: 80vw;
+    }
+    .sign-up .row .form {
+        height: 83vh;
+        max-width: 80vw;
+    }
+    .sign-up .row .form .icons i {
+        font-size: 4rem;
+        color: var(--colour);
+        width: 7rem;
+        height: 4rem;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2rem;
+        overflow: visible;
+    }
+    .sign-up .row .form .logo {
+        margin: 0 14.7rem;
+    }
+    .sign-up .row .form .logo i {
+        color: var(--colour);
+        margin: 0 0.6rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 3.5rem;
+        width: 42rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0px 17.5rem;
+        width: 14rem;
+    }
+}
+@media (max-width:450px){
+    .sign-up .row .form .logo {
+        margin: 0 9.7rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 2.5rem;
+        width: 34rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0px 12.5rem;
+        width: 14rem;
+        /* position: fixed; */
+    }
+    .login{
+        margin-top: 5rem;
+        padding: 5rem 0;
+    }
+
+}
+@media (max-width:380px){
+    .sign-up .row .form .logo {
+        margin: 0 8rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 2.5rem;
+        width: 32rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0px 12.5rem;
+        width: 14rem;
+    }
+    .login{
+        margin-top: 5rem;
+        padding: 5rem 0;
+    }
+}
+@media (max-width:300px){
+    .sign-up .row .form .logo {
+        margin: 0 4.3rem;
+    }
+    .sign-up .row .form .input-form form input {
+        margin: 1rem 2.5rem;
+        width: 23rem;
+    }
+    .sign-up .row .form .input-form form .btn {
+        margin: 0px 7rem;
+        width: 14rem;
+    }
+}
+
+
+
