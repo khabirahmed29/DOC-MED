@@ -8,7 +8,7 @@
   outline: none; 
   border:none;
   /* text-transform: capitalize; */
-  transition: all .2s linear;
+  /* transition: all .2s linear; */
 }
 
 
@@ -39,6 +39,10 @@ html{
   overflow-x: hidden;
   scroll-padding-top: 5.5rem;
   scroll-behavior: smooth;
+}
+.form-btn {
+  width: 250px !important;
+  margin-top: 30px !important;
 }
 
 section{
@@ -107,7 +111,7 @@ header .logo i{
 }
 
 header .navbar{
-  left: 350px;
+  left: 320px;
 }
 header .navbar a{
   font-size: 1.7rem;
@@ -529,7 +533,7 @@ span{
   line-height: 1.8;
   color:var(--light-color);
 }
-
+/* 
 .order form{
   max-width:90rem;
   border-radius: .5rem;
@@ -581,7 +585,7 @@ span{
 
 .order form .btn{
   margin-top: 0;
-}
+} */
 .footer{
   background-color: black;
 }
@@ -651,10 +655,6 @@ span{
 
 
 
-.form-btn {
-  width: 250px !important;
-  margin-top: 30px !important;
-}
 
 
 
@@ -784,9 +784,9 @@ span{
       width: 100%;
   }
 
-  .order form .inputBox .input{
+  /* .order form .inputBox .input{
       width:100%;
-  }
+  } */
   .library .box-container .box .image {
       height: 42rem;
   }

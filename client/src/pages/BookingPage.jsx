@@ -31,7 +31,7 @@ const BookingPage = () => {
         setDoctors(res.data.data);
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -51,14 +51,14 @@ const BookingPage = () => {
       dispatch(hideLoading());
       if (res.data.success) {
         setIsAvailable(true);
-        // console.log(isAvailable);
+        console.log(isAvailable);
         message.success(res.data.message);
       } else {
         message.error(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading());
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -92,7 +92,7 @@ const BookingPage = () => {
       }
     } catch (error) {
       dispatch(hideLoading());
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -103,6 +103,7 @@ const BookingPage = () => {
   return (
     <div>
       <Layout />
+
       <br />
       <br />
       <br />

@@ -33,8 +33,8 @@ const ApplyDoctor = () => {
       }
     } catch (error) {
       dispatch(hideLoading());
-      // console.log(error);
-      message.error("Somthing Went Wrong ");
+      console.log(error);
+      message.error("Somthing Went Wrrong ");
     }
   };
   return (
@@ -47,6 +47,7 @@ const ApplyDoctor = () => {
       <br />
       <br />
       <br />
+
       <h1 className="text-center">Apply Doctor</h1>
       <Form layout="vertical" onFinish={handleFinish} className="m-3">
         <h4 className="">Personal Details : </h4>
