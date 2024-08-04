@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/static/css/main.34073f91.css",
+    "main.js": "/static/js/main.c39dc244.js",
+    "static/js/453.419a5d54.chunk.js": "/static/js/453.419a5d54.chunk.js",
+    "static/media/rev3.jpeg": "/static/media/rev3.6d774971ffdb9a3ecfa1.jpeg",
+    "static/media/login.jpg": "/static/media/login.4b4370a64d547f3fdc9d.jpg",
+    "static/media/doc-nurse.jpg": "/static/media/doc-nurse.397917a3a87afbd85d40.jpg",
+    "static/media/login2.jpg": "/static/media/login2.c65431b0c4a56be7e828.jpg",
+    "static/media/hero.png": "/static/media/hero.e7488646e29ff5b8b093.png",
+    "static/media/eye.png": "/static/media/eye.f69c3bb6dcff801f1408.png",
+    "static/media/health-care.png": "/static/media/health-care.70e8123af3b4f271d974.png",
+    "static/media/doc1.jpeg": "/static/media/doc1.3ff69ef27cef8dbf96cc.jpeg",
+    "static/media/covid-19.png": "/static/media/covid-19.8794df265131e1b882bc.png",
+    "static/media/nicotine.png": "/static/media/nicotine.5ed523a587aac30cae46.png",
+    "static/media/treatment.png": "/static/media/treatment.1486928c843c9fa79c17.png",
+    "static/media/laboratories.png": "/static/media/laboratories.908a4b5495103a0c4e30.png",
+    "static/media/doc3.jpg": "/static/media/doc3.2edc37acde6453b68f30.jpg",
+    "static/media/doc2.jpg": "/static/media/doc2.e997bf037bfc017e92ff.jpg",
+    "static/media/anita.png": "/static/media/anita.6d8386670fa32f8b80d3.png",
+    "static/media/doc4.jpg": "/static/media/doc4.ca26db03d51d98b09e07.jpg",
+    "static/media/jane.png": "/static/media/jane.67a0f156e8798176ef07.png",
+    "static/media/hero-bg.png": "/static/media/hero-bg.0bc71b9ff06175f13637.png",
+    "static/media/rev1.jpg": "/static/media/rev1.090094b9067664ff4b90.jpg",
+    "static/media/leo-mario.png": "/static/media/leo-mario.87c02bba49ba0507d8c8.png",
+    "static/media/rev4.jpg": "/static/media/rev4.518b0f393f3ebf95633c.jpg",
+    "static/media/rev2.jpg": "/static/media/rev2.c7a0e88621ea47531151.jpg",
+    "static/media/neurology.svg": "/static/media/neurology.4b164e1fc19fbb6cfeb83e62b2fc2ba0.svg",
+    "static/media/heart.svg": "/static/media/heart.be0d958ee246235ce96ba2cdc793228f.svg",
+    "static/media/cardiac.svg": "/static/media/cardiac.ba4b4334121185f3da5a6f933746f4f2.svg",
+    "static/media/osteoporosis.svg": "/static/media/osteoporosis.37f83319c21eca2b865e3b2046e04dad.svg",
+    "static/media/eye-care.svg": "/static/media/eye-care.e36f777a48ebee18ab48faf67d70e55a.svg",
+    "static/media/ent.svg": "/static/media/ent.5717727bb122cf6c82fef013cd860ac6.svg",
+    "index.html": "/index.html",
+    "main.34073f91.css.map": "/static/css/main.34073f91.css.map",
+    "main.c39dc244.js.map": "/static/js/main.c39dc244.js.map",
+    "453.419a5d54.chunk.js.map": "/static/js/453.419a5d54.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.34073f91.css",
+    "static/js/main.c39dc244.js"
+  ]
+}
