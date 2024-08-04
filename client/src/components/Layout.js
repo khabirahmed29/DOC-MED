@@ -4,6 +4,7 @@ import "../index.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Badge, message } from "antd";
+import { useState } from "react";
 
 const Layout = () => {
   const { user } = useSelector((state) => state.user);
@@ -15,6 +16,7 @@ const Layout = () => {
     message.success("Logout Successfully");
     navigate("/login");
   };
+  const [toggle, setToogle] = useState(false);
 
   // Doctor Menu
   const doctorMenu = [
@@ -45,7 +47,7 @@ const Layout = () => {
           <i class="fa-solid fa-user-doctor"></i> DOCMED
         </a>
       </Link>
-      <nav className="navbar">
+      <nav className={`${toggle ? "active" : "navbar "}`}>
         {SidebarMenu.map((menu) => {
           const isActive = location.pathname === menu.path;
           return (
@@ -73,6 +75,13 @@ const Layout = () => {
           <Link to="/login">Logout</Link>
         </div>
       </nav>
+      <div class="icons">
+        <i
+          class={`fas ${toggle ? "fa-times" : "fa-bars"}`}
+          id="menu-bars"
+          onClick={() => setToogle(!toggle)}
+        ></i>
+      </div>
       <br />
     </header>
   );

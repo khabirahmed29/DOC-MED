@@ -755,6 +755,8 @@ span{
 
   header .icons #menu-bars{
       display: inline-block;
+      left: 95px;
+      position: relative
   }
 
   header .navbar {
@@ -788,11 +790,15 @@ span{
   
   header .active a{
       color: var(--black);
+      text-decoration: none;
       display: block;
       padding:1.5rem;
       margin:1rem;
       font-size: 2rem;
       background:#eee;
+  }
+  header .active i{
+    visibility: hidden;
   }
   header .navbar .sign-in{
       position: relative;

@@ -36,8 +36,8 @@ const Register = () => {
           <img src={login2} alt="" />
         </div>
         <div className="form">
-          <Link to="/login" className="logon">
-            <a class="logon">
+          <Link to="/login" className="xyz">
+            <a class="logo">
               <i class="fa-solid fa-user-doctor"></i> DOCMED
             </a>
           </Link>

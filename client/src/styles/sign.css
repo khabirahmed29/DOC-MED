@@ -16,8 +16,8 @@
     box-sizing: border-box;
     text-decoration: none;
     outline: none; border:none;
-    /* text-transform: capitalize;
-    transition: all .2s linear; */
+    text-transform: capitalize;
+    transition: all .2s linear;
     /* overflow-y: hidden; */
 }
 
@@ -109,6 +109,7 @@ section:nth-child(even):not(:last-child){
     font-size: 3.2rem;
     font-weight: bolder;
     margin: 19.1rem;
+    text-decoration: none;
 }
 
 .sign-up .row .form .logo i{
@@ -211,6 +212,9 @@ section:nth-child(even):not(:last-child){
     margin-top: 5rem;
     /* padding: 5rem 0; */
 }
+.xyz{
+    text-decoration: none;
+}
 
 
 
@@ -310,7 +314,8 @@ section:nth-child(even):not(:last-child){
         max-width: 75vw;
     }
     .sign-up .row .form .logo {
-        margin: 0 25.7rem;
+        margin: 0 18rem;
+        text-decoration: none;
     }
     .sign-up .row .form .input-form form input {
         margin: 1rem 10.3rem;
@@ -324,6 +329,9 @@ section:nth-child(even):not(:last-child){
         margin: 0px 29.5rem;
         /* position: fixed; */
     }
+    /* .sign-up .row .form p {
+        padding: 3.5rem 0;
+    } */
 
 
 }
@@ -356,7 +364,8 @@ section:nth-child(even):not(:last-child){
         overflow: visible;
     }
     .sign-up .row .form .logo {
-        margin: 0 25.2rem;
+        margin: 0 24.2rem;
+        text-decoration: none;
     }
     .sign-up .row .form .logo i {
         color: var(--colour);
@@ -378,6 +387,7 @@ section:nth-child(even):not(:last-child){
     .sign-up {
         overflow: hidden;
         height: 100vh;
+        margin-left: -25px;
     }
     .sign-up .row {
         margin: 8vh 6.5vw;
@@ -416,11 +426,12 @@ section:nth-child(even):not(:last-child){
 }
 @media (max-width:450px){
     .sign-up .row .form .logo {
-        margin: 0 9.7rem;
+        margin: 0 6.7rem;
+        text-decoration: none;
     }
     .sign-up .row .form .input-form form input {
         margin: 1rem 2.5rem;
-        width: 34rem;
+        width: 30rem;
     }
     .sign-up .row .form .input-form form .btn {
         margin: 0px 12.5rem;
@@ -435,14 +446,14 @@ section:nth-child(even):not(:last-child){
 }
 @media (max-width:380px){
     .sign-up .row .form .logo {
-        margin: 0 8rem;
+        margin: 0 5rem;
     }
     .sign-up .row .form .input-form form input {
         margin: 1rem 2.5rem;
-        width: 32rem;
+        width: 27rem;
     }
     .sign-up .row .form .input-form form .btn {
-        margin: 0px 12.5rem;
+        margin: 0px 9.5rem;
         width: 14rem;
     }
     .login{
@@ -452,7 +463,7 @@ section:nth-child(even):not(:last-child){
 }
 @media (max-width:300px){
     .sign-up .row .form .logo {
-        margin: 0 4.3rem;
+        margin: 0 6rem;
     }
     .sign-up .row .form .input-form form input {
         margin: 1rem 2.5rem;
