@@ -353,6 +353,7 @@ section:nth-child(even):not(:last-child){
         margin: 0 24.2rem;
         text-decoration: none;
     }
+    
     .sign-up .row .form .logo i {
         color: var(--colour);
         margin: 0 0.6rem;
