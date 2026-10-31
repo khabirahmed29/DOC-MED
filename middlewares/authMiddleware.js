@@ -1,24 +1,25 @@
 const JWT = require("jsonwebtoken");
 
-module.exports = async (req, res, next) => {
+module.exports = (req, res, next) => {
+  const authHeader = req.get("authorization") || "";
+  const tokenMatch = authHeader.match(/^Bearer\s+(\S+)$/i);
+
+  if (!tokenMatch) {
+    return res.status(401).send({ success: false, message: "Authentication required." });
+  }
+  if (!process.env.JWT_SECRET) {
+    return res.status(500).send({ success: false, message: "Authentication is not configured." });
+  }
+
   try {
-    const token = req.headers["authorization"].split(" ")[1];
-    JWT.verify(token, process.env.JWT_SECRET, (err, decode) => {
-      if (err) {
-        return res.status(200).send({
-          message: "Auth Fialed",
-          success: false,
-        });
-      } else {
-        req.body.userId = decode.id;
-        next();
-      }
-    });
+    const decoded = JWT.verify(tokenMatch[1], process.env.JWT_SECRET);
+    if (!decoded.id) {
+      return res.status(401).send({ success: false, message: "Invalid or expired token." });
+    }
+    req.body = req.body || {};
+    req.body.userId = decoded.id;
+    return next();
   } catch (error) {
-    // console.log(error);
-    res.status(401).send({
-      message: "Auth Failed",
-      success: false,
-    });
+    return res.status(401).send({ success: false, message: "Invalid or expired token." });
   }
 };

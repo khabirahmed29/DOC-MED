@@ -29,9 +29,32 @@ const getDoctorInfoController =async (req, res) =>{
 // update doc profile
 const updateProfileController = async (req, res) => {
   try {
+    const editableFields = [
+      "firstName",
+      "lastName",
+      "phone",
+      "email",
+      "website",
+      "address",
+      "specialization",
+      "experience",
+      "feesPerCunsaltation",
+      "timings",
+    ];
+    const updates = Object.fromEntries(
+      editableFields
+        .filter((field) => Object.prototype.hasOwnProperty.call(req.body || {}, field))
+        .map((field) => [field, req.body[field]])
+    );
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).send({ success: false, message: "No editable profile fields were provided." });
+    }
+
     const doctor = await doctorModel.findOneAndUpdate(
       { userId: req.body.userId },
-      req.body
+      { $set: updates },
+      { new: true, runValidators: true }
     );
     if (!doctor) {
       return res.status(404).send({ success: false, message: "Doctor profile not found." });

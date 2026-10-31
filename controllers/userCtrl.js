@@ -141,10 +141,12 @@ const getAllNotificationController = async (req, res) => {
     user.notifcation = [];
     user.seennotification = notifcation;
     const updatedUser = await user.save();
+    const safeUser = updatedUser.toObject();
+    delete safeUser.password;
     res.status(200).send({
       success: true,
       message: "all notification marked as read",
-      data: updatedUser,
+      data: safeUser,
     });
   } catch (error) {
     // console.log(error);
