@@ -3,6 +3,7 @@
 const appointmentModel = require("../models/appointmentModel");
 const doctorModel = require("../models/doctorModel");
 const userModel = require("../models/userModels");
+const mongoose = require("mongoose");
 
 const getDoctorInfoController =async (req, res) =>{
   try{
@@ -100,16 +101,43 @@ const doctorAppointmentsController = async (req, res) => {
 const updateStatusController = async (req, res) => {
   try {
     const { appointmentsId, status } = req.body;
-    const appointments = await appointmentModel.findById(appointmentsId);
-    if (!appointments) {
+    if (!mongoose.Types.ObjectId.isValid(appointmentsId)) {
+      return res.status(400).send({ success: false, message: "Invalid appointment." });
+    }
+    if (!["approved", "reject"].includes(status)) {
+      return res.status(400).send({ success: false, message: "Status must be approved or reject." });
+    }
+
+    const doctor = await doctorModel.findOne({
+      userId: req.body.userId,
+      status: "approved",
+    });
+    if (!doctor) {
+      return res.status(403).send({ success: false, message: "An approved doctor account is required." });
+    }
+
+    const appointment = await appointmentModel.findOne({
+      _id: appointmentsId,
+      doctorId: doctor._id.toString(),
+    });
+    if (!appointment) {
       return res.status(404).send({ success: false, message: "Appointment not found." });
     }
-    const user = await userModel.findOne({ _id: appointments.userId });
+
+    const user = await userModel.findById(appointment.userId);
     if (!user) {
       return res.status(404).send({ success: false, message: "Appointment user not found." });
     }
-    appointments.status = status;
-    await appointments.save();
+
+    const updatedAppointment = await appointmentModel.findOneAndUpdate(
+      { _id: appointmentsId, doctorId: doctor._id.toString() },
+      { $set: { status } },
+      { new: true, runValidators: true }
+    );
+    if (!updatedAppointment) {
+      return res.status(404).send({ success: false, message: "Appointment not found." });
+    }
+
     const notifcation = user.notifcation;
     notifcation.push({
       type: "status-updated",
