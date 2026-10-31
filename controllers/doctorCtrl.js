@@ -7,6 +7,9 @@ const userModel = require("../models/userModels");
 const getDoctorInfoController =async (req, res) =>{
   try{
     const doctor = await doctorModel.findOne({userId: req.body.userId})
+    if (!doctor) {
+      return res.status(404).send({ success: false, message: "Doctor profile not found." });
+    }
     res.status(200).send({
       success: true,
       message: "doctor data fetch success",
@@ -29,6 +32,9 @@ const updateProfileController = async (req, res) => {
       { userId: req.body.userId },
       req.body
     );
+    if (!doctor) {
+      return res.status(404).send({ success: false, message: "Doctor profile not found." });
+    }
     res.status(201).send({
       success: true,
       message: "Doctor Profile Updated",
@@ -48,6 +54,9 @@ const updateProfileController = async (req, res) => {
 const getDoctorByIdController = async (req, res) => {
   try {
     const doctor = await doctorModel.findOne({ _id: req.body.doctorId });
+    if (!doctor) {
+      return res.status(404).send({ success: false, message: "Doctor not found." });
+    }
     res.status(200).send({
       success: true,
       message: "Sigle Doc Info Fetched",
@@ -67,6 +76,9 @@ const getDoctorByIdController = async (req, res) => {
 const doctorAppointmentsController = async (req, res) => {
   try {
     const doctor = await doctorModel.findOne({ userId: req.body.userId });
+    if (!doctor) {
+      return res.status(404).send({ success: false, message: "Doctor profile not found." });
+    }
     const appointments = await appointmentModel.find({
       doctorId: doctor._id,
     });
@@ -88,11 +100,16 @@ const doctorAppointmentsController = async (req, res) => {
 const updateStatusController = async (req, res) => {
   try {
     const { appointmentsId, status } = req.body;
-    const appointments = await appointmentModel.findByIdAndUpdate(
-      appointmentsId,
-      { status }
-    );
+    const appointments = await appointmentModel.findById(appointmentsId);
+    if (!appointments) {
+      return res.status(404).send({ success: false, message: "Appointment not found." });
+    }
     const user = await userModel.findOne({ _id: appointments.userId });
+    if (!user) {
+      return res.status(404).send({ success: false, message: "Appointment user not found." });
+    }
+    appointments.status = status;
+    await appointments.save();
     const notifcation = user.notifcation;
     notifcation.push({
       type: "status-updated",

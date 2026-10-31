@@ -50,15 +50,18 @@ const BookingPage = () => {
       );
       dispatch(hideLoading());
       if (res.data.success) {
-        setIsAvailable(true);
-        console.log(isAvailable);
-        message.success(res.data.message);
+        setIsAvailable(res.data.available);
+        if (res.data.available) {
+          message.success(res.data.message);
+        } else {
+          message.error(res.data.message);
+        }
       } else {
         message.error(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading());
-      console.log(error);
+      message.error(error.response?.data?.message || "Unable to book this appointment.");
     }
   };
 
@@ -135,6 +138,7 @@ const BookingPage = () => {
                 format="HH:mm"
                 className="m-2"
                 onChange={(value) => {
+                  setIsAvailable(false);
                   setTime(moment(value).format("HH:mm"));
                 }}
               />
@@ -144,7 +148,7 @@ const BookingPage = () => {
               >
                 Check Availability
               </button>
-              {!isAvailable && (
+              {isAvailable && (
                 <button className="btn btn-dark mt-2" onClick={handleBooking}>
                   Book Now
                 </button>

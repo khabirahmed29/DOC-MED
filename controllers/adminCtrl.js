@@ -41,8 +41,16 @@ const getAllDoctorsController = async (req, res) => {
 const changeAccountStatusController = async (req, res) => {
   try {
     const { doctorId, status } = req.body;
-    const doctor = await doctorModel.findByIdAndUpdate(doctorId, { status });
+    const doctor = await doctorModel.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).send({ success: false, message: "Doctor not found." });
+    }
     const user = await userModel.findOne({ _id: doctor.userId });
+    if (!user) {
+      return res.status(404).send({ success: false, message: "Doctor account user not found." });
+    }
+    doctor.status = status;
+    await doctor.save();
     const notifcation = user.notifcation;
     notifcation.push({
       type: "doctor-account-request-updated",

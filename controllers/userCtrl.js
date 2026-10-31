@@ -4,29 +4,46 @@ const jwt = require("jsonwebtoken");
 const doctorModel = require("../models/doctorModel");
 const appointmentModel = require("../models/appointmentModel");
 const moment = require("moment");
-
+const mongoose = require("mongoose");
 
 //register callback
 const registerController = async (req, res) => {
   try {
-    const exisitingUser = await userModel.findOne({ email: req.body.email });
-    if (exisitingUser) {
-      return res
-        .status(200)
-        .send({ message: "User Already Exist", success: false });
+    const { name, email, password } = req.body || {};
+    const normalizedName = typeof name === "string" ? name.trim() : "";
+    const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
+
+    if (!normalizedName || normalizedName.length > 80) {
+      return res.status(400).send({ success: false, message: "Enter a name up to 80 characters long." });
     }
-    const password = req.body.password;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      return res.status(400).send({ success: false, message: "Enter a valid email address." });
+    }
+    if (typeof password !== "string" || password.length < 8 || password.length > 128) {
+      return res.status(400).send({ success: false, message: "Password must be between 8 and 128 characters." });
+    }
+
+    const existingUser = await userModel.findOne({ email: normalizedEmail });
+    if (existingUser) {
+      return res.status(409).send({ success: false, message: "An account with this email already exists." });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    req.body.password = hashedPassword;
-    const newUser = new userModel(req.body);
+    const newUser = new userModel({
+      name: normalizedName,
+      email: normalizedEmail,
+      password: hashedPassword,
+    });
     await newUser.save();
-    res.status(201).send({ message: "Register Sucessfully", success: true });
+    res.status(201).send({ message: "Registered successfully.", success: true });
   } catch (error) {
-    // console.log(error);
+    if (error.code === 11000) {
+      return res.status(409).send({ success: false, message: "An account with this email already exists." });
+    }
     res.status(500).send({
       success: false,
-      message: `Register Controller ${error.message}`,
+      message: "Unable to register right now.",
     });
   }
 };
@@ -36,15 +53,11 @@ const loginController = async (req, res) => {
   try {
     const user = await userModel.findOne({ email: req.body.email });
     if (!user) {
-      return res
-        .status(200)
-        .send({ message: "user not found", success: false });
+      return res.status(401).send({ message: "Invalid email or password.", success: false });
     }
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) {
-      return res
-        .status(200)
-        .send({ message: "Invlid EMail or Password", success: false });
+      return res.status(401).send({ message: "Invalid email or password.", success: false });
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
@@ -59,13 +72,13 @@ const loginController = async (req, res) => {
 const authController = async (req, res) => {
   try {
     const user = await userModel.findById({ _id: req.body.userId });
-    user.password = undefined;
     if (!user) {
-      return res.status(200).send({
+      return res.status(404).send({
         message: "user not found",
         success: false,
       });
     } else {
+      user.password = undefined;
       res.status(200).send({
         success: true,
         data: user,
@@ -84,9 +97,12 @@ const authController = async (req, res) => {
 // APpply DOctor CTRL
 const applyDoctorController = async (req, res) => {
   try {
+    const adminUser = await userModel.findOne({ isAdmin: true });
+    if (!adminUser) {
+      return res.status(404).send({ success: false, message: "Admin account not found." });
+    }
     const newDoctor = await doctorModel({ ...req.body, status: "pending" });
     await newDoctor.save();
-    const adminUser = await userModel.findOne({ isAdmin: true });
     const notifcation = adminUser.notifcation;
     notifcation.push({
       type: "apply-doctor-request",
@@ -116,6 +132,9 @@ const applyDoctorController = async (req, res) => {
 const getAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.body.userId });
+    if (!user) {
+      return res.status(404).send({ success: false, message: "User not found." });
+    }
     const seennotification = user.seennotification;
     const notifcation = user.notifcation;
     seennotification.push(...notifcation);
@@ -141,6 +160,9 @@ const getAllNotificationController = async (req, res) => {
 const deleteAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.body.userId });
+    if (!user) {
+      return res.status(404).send({ success: false, message: "User not found." });
+    }
     user.notifcation = [];
     user.seennotification = [];
     const updatedUser = await user.save();
@@ -182,15 +204,57 @@ const getAllDoctorsController = async (req, res) => {
 //BOOK APPOINTMENT
 const bookeAppointmnetController = async (req, res) => {
   try {
-    req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
-    req.body.time = moment(req.body.time, "HH:mm").toISOString();
-    req.body.status = "pending";
-    const newAppointment = new appointmentModel(req.body);
+    const { doctorId } = req.body;
+    const dateTime = moment(
+      `${req.body.date || ""} ${req.body.time || ""}`,
+      "DD-MM-YYYY HH:mm",
+      true
+    );
+
+    if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+      return res.status(400).send({ success: false, message: "Invalid doctor." });
+    }
+    if (!dateTime.isValid() || dateTime.isBefore(moment())) {
+      return res.status(400).send({ success: false, message: "Choose a valid future date and time." });
+    }
+
+    const doctor = await doctorModel.findOne({ _id: doctorId, status: "approved" });
+    if (!doctor) {
+      return res.status(404).send({ success: false, message: "Approved doctor not found." });
+    }
+    const user = await userModel.findById(req.body.userId);
+    if (!user) {
+      return res.status(404).send({ success: false, message: "User not found." });
+    }
+
+    const appointmentDate = dateTime.clone().startOf("day").toISOString();
+    const appointmentTime = dateTime.toISOString();
+    const conflictingAppointments = await appointmentModel.find({
+      doctorId: doctor._id.toString(),
+      date: appointmentDate,
+      status: { $ne: "reject" },
+      time: {
+        $gte: dateTime.clone().subtract(1, "hour").toISOString(),
+        $lte: dateTime.clone().add(1, "hour").toISOString(),
+      },
+    });
+    if (conflictingAppointments.length > 0) {
+      return res.status(409).send({ success: false, message: "This appointment time is no longer available." });
+    }
+
+    const newAppointment = new appointmentModel({
+      userId: user._id.toString(),
+      doctorId: doctor._id.toString(),
+      doctorInfo: doctor.toObject(),
+      userInfo: { _id: user._id, name: user.name, email: user.email },
+      date: appointmentDate,
+      time: appointmentTime,
+      status: "pending",
+    });
     await newAppointment.save();
-    const user = await userModel.findOne({ _id: req.body.userId });
     user.notifcation.push({
       type: "New-appointment-request",
-      message: `A new Appointment Request from ${req.body.userInfo.name}`,
+      message: `A new Appointment Request from ${user.name}`,
       onCLickPath: "/user/appointments",
     });
     await user.save();
@@ -211,31 +275,38 @@ const bookeAppointmnetController = async (req, res) => {
 // booking bookingAvailabilityController
 const bookingAvailabilityController = async (req, res) => {
   try {
-    const date = moment(req.body.date, "DD-MM-YY").toISOString();
-    const fromTime = moment(req.body.time, "HH:mm")
-      .subtract(1, "hours")
-      .toISOString();
-    const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString();
-    const doctorId = req.body.doctorId;
+    const { doctorId } = req.body;
+    const dateTime = moment(
+      `${req.body.date || ""} ${req.body.time || ""}`,
+      "DD-MM-YYYY HH:mm",
+      true
+    );
+    if (
+      !mongoose.Types.ObjectId.isValid(doctorId) ||
+      !dateTime.isValid() ||
+      dateTime.isBefore(moment())
+    ) {
+      return res.status(400).send({ success: false, message: "Choose a valid doctor, date, and time." });
+    }
+    const doctor = await doctorModel.findOne({ _id: doctorId, status: "approved" });
+    if (!doctor) {
+      return res.status(404).send({ success: false, message: "Approved doctor not found." });
+    }
     const appointments = await appointmentModel.find({
-      doctorId,
-      date,
+      doctorId: doctor._id.toString(),
+      date: dateTime.clone().startOf("day").toISOString(),
+      status: { $ne: "reject" },
       time: {
-        $gte: fromTime,
-        $lte: toTime,
+        $gte: dateTime.clone().subtract(1, "hour").toISOString(),
+        $lte: dateTime.clone().add(1, "hour").toISOString(),
       },
     });
-    if (appointments.length > 0) {
-      return res.status(200).send({
-        message: "Appointments not Availibale at this time",
-        success: true,
-      });
-    } else {
-      return res.status(200).send({
-        success: true,
-        message: "Appointments available",
-      });
-    }
+    const available = appointments.length === 0;
+    return res.status(200).send({
+      success: true,
+      available,
+      message: available ? "Appointments available" : "Appointments not available at this time",
+    });
   } catch (error) {
     // console.log(error);
     res.status(500).send({
@@ -248,6 +319,10 @@ const bookingAvailabilityController = async (req, res) => {
 
 const userAppointmentsController = async (req, res) => {
   try {
+    const user = await userModel.findById(req.body.userId);
+    if (!user) {
+      return res.status(404).send({ success: false, message: "User not found." });
+    }
     const appointments = await appointmentModel.find({
       userId: req.body.userId,
     });
@@ -276,6 +351,5 @@ module.exports = {
   getAllDoctorsController,
   bookeAppointmnetController,
   bookingAvailabilityController,
-  userAppointmentsController
-
+  userAppointmentsController,
 };
