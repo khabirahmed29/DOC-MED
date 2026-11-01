@@ -69,7 +69,11 @@ const Layout = () => {
           <i class="fa-solid fa-bell"></i>
         </Badge>
 
-        <Link to="/doctor/profile/${user?._id}">{user?.name}</Link>
+        {user?.isDoctor ? (
+          <Link to={`/doctor/profile/${user._id}`}>{user.name}</Link>
+        ) : (
+          <Link to="/profile">{user?.name}</Link>
+        )}
         <div className="" onClick={handleLogout}>
           <i className="fa-solid fa-right-from-bracket"></i>
           <Link to="/login">Logout</Link>

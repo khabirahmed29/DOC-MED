@@ -16,6 +16,7 @@ import Profile from "./pages/doctor/Profile";
 import BookingPage from "./pages/BookingPage";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
+import AccountProfile from "./pages/AccountProfile";
 import { clearUser } from "./redux/features/userSlice";
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,14 @@ function App() {
               }
             />
             <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <AccountProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/doctor/book-appointment/:doctorId"
               element={
                 <ProtectedRoute>
@@ -103,9 +112,9 @@ function App() {
             <Route
               path="/register"
               element={
-                <publicRoute>
+                <PublicRoute>
                   <Register />
-                </publicRoute>
+                </PublicRoute>
               }
             />
             <Route

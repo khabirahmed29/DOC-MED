@@ -2,7 +2,6 @@ import React from "react";
 import Layout from "./../../components/Layout";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import { Col, Form, Input, Row, TimePicker, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +13,8 @@ const Profile = () => {
   const [doctor, setDoctor] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const params = useParams();
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  const [profileError, setProfileError] = useState("");
   // Update doc
   //handle form
   const handleFinish = async (values) => {
@@ -54,10 +54,12 @@ const Profile = () => {
 
   //getDOc Details
   const getDoctorInfo = async () => {
+    setIsLoadingProfile(true);
+    setProfileError("");
     try {
       const res = await axios.post(
         "/api/v1/doctor/getDoctorInfo",
-        { userId: params.id },
+        {},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -66,9 +68,15 @@ const Profile = () => {
       );
       if (res.data.success) {
         setDoctor(res.data.data);
+      } else {
+        setProfileError(res.data.message || "Could not load your doctor profile.");
       }
     } catch (error) {
-      // console.log(error);
+      const errorMessage = error.response?.data?.message || "Could not load your doctor profile.";
+      setProfileError(errorMessage);
+      message.error(errorMessage);
+    } finally {
+      setIsLoadingProfile(false);
     }
   };
 
@@ -87,6 +95,15 @@ const Profile = () => {
       <br />
       <br />
       <h1>Manage Profile</h1>
+      {isLoadingProfile && <p className="m-3">Loading doctor profile…</p>}
+      {!isLoadingProfile && profileError && (
+        <div className="m-3" role="alert">
+          <p>{profileError}</p>
+          <button className="btn btn-primary" type="button" onClick={getDoctorInfo}>
+            Try again
+          </button>
+        </div>
+      )}
       {doctor && (
         <Form
           layout="vertical"
