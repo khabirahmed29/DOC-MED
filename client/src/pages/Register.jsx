@@ -1,84 +1,100 @@
 import React from "react";
-import "../styles/RegisterStyles.css";
-import { Form, Input, message } from "antd";
+import { message } from "antd";
 import axios from "axios";
-
-import { login2 } from "../assets";
-import "../styles/sign.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { showLoading, hideLoading } from "../redux/features/alertSlice";
+import { hideLoading, showLoading } from "../redux/features/alertSlice";
+import AuthLayout from "../components/AuthLayout";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //form handler
-  const onfinishHandler = async (values) => {
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+
     try {
       dispatch(showLoading());
       const res = await axios.post("/api/v1/user/register", values);
-      dispatch(hideLoading());
       if (res.data.success) {
-        message.success("Register Successfully!");
+        message.success("Account created successfully.");
         navigate("/login");
       } else {
         message.error(res.data.message);
       }
     } catch (error) {
+      message.error(error.response?.data?.message || "Unable to register right now.");
+    } finally {
       dispatch(hideLoading());
-      // console.log(error);
-      message.error(error.response?.data?.message || "Something Went Wrong");
     }
   };
+
   return (
-    <section className="sign-up" id="sign-up">
-      <div className="row">
-        <div className="image ">
-          <img src={login2} alt="" />
-        </div>
-        <div className="form">
-          <Link to="/login" className="xyz">
-            <a class="logo">
-              <i class="fa-solid fa-user-doctor"></i> DOCMED
-            </a>
+    <AuthLayout
+      doctorPhoto
+      title="Create A New Account"
+      description="Get started managing your healthcare in one place."
+      footer={
+        <>
+          Already have an account?{" "}
+          <Link to="/login" className="font-semibold text-sky-700 hover:text-sky-900">
+            Sign in
           </Link>
-          <br />
-          <br />
-          <br />
-          <h3 className="sub-heading">Create a new account</h3>
-          <div className="input-form ">
-            <Form
-              layout="vertical"
-              onFinish={onfinishHandler}
-              className="form2"
-            >
-              <Form.Item name="name">
-                <Input placeholder="name" type="text" required />
-              </Form.Item>
-              <Form.Item name="email">
-                <Input placeholder="email" type="email" id="email" required />
-              </Form.Item>
-              <Form.Item name="password">
-                <Input
-                  placeholder="password"
-                  type="password"
-                  id="password"
-                  required
-                />
-              </Form.Item>
-              <button className="btn" type="submit">
-                Sign Up
-              </button>
-              <p className="login">
-                Already have a docmed account ?{" "}
-                <a className="signUp">
-                  <Link to="/login"> Sign in</Link>
-                </a>
-              </p>
-            </Form>
-          </div>
+        </>
+      }
+    >
+      <form onSubmit={onSubmit} className="space-y-6">
+        <div className="space-y-2">
+          <Label htmlFor="name" className="sr-only">Full name</Label>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="name"
+            autoComplete="name"
+            maxLength={80}
+            required
+            className="h-14 rounded-xl border-slate-200 bg-white px-4 text-base shadow-sm placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-sky-500"
+          />
         </div>
-      </div>
-    </section>
+        <div className="space-y-2">
+          <Label htmlFor="email" className="sr-only">Email address</Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="email"
+            autoComplete="email"
+            required
+            className="h-14 rounded-xl border-slate-200 bg-white px-4 text-base shadow-sm placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-sky-500"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="password" className="sr-only">Password</Label>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="password"
+            autoComplete="new-password"
+            minLength={8}
+            maxLength={128}
+            required
+            className="h-14 rounded-xl border-slate-200 bg-white px-4 text-base shadow-sm placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-sky-500"
+          />
+        </div>
+        <Button
+          type="submit"
+          className="w-fit rounded-lg bg-slate-950 px-8 font-sans text-base font-semibold text-white shadow-md hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-sky-500"
+        >
+          Sign Up
+        </Button>
+      </form>
+    </AuthLayout>
   );
 };
 

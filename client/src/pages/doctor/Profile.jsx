@@ -2,11 +2,13 @@ import React from "react";
 import Layout from "./../../components/Layout";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Col, Form, Input, Row, TimePicker, message } from "antd";
+import { message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../../redux/features/alertSlice";
-import moment from "moment";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -17,7 +19,10 @@ const Profile = () => {
   const [profileError, setProfileError] = useState("");
   // Update doc
   //handle form
-  const handleFinish = async (values) => {
+  const handleFinish = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const { startTime, endTime, ...values } = Object.fromEntries(formData.entries());
     try {
       dispatch(showLoading());
       const res = await axios.post(
@@ -25,10 +30,7 @@ const Profile = () => {
         {
           ...values,
           userId: user._id,
-          timings: [
-            moment(values.timings[0]).format("HH:mm"),
-            moment(values.timings[1]).format("HH:mm"),
-          ],
+          timings: [startTime, endTime],
         },
         {
           headers: {
@@ -85,143 +87,81 @@ const Profile = () => {
     //eslint-disable-next-line
   }, []);
   return (
-    <div>
+    <>
       <Layout />
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h1>Manage Profile</h1>
+      <main className="app-page">
+      <p className="home-section-kicker" style={{ textAlign: "left" }}>Doctor workspace</p>
+      <h1 className="app-page-heading">Manage profile</h1>
+      <p className="app-page-description">Keep your professional details and availability up to date.</p>
       {isLoadingProfile && <p className="m-3">Loading doctor profile…</p>}
       {!isLoadingProfile && profileError && (
-        <div className="m-3" role="alert">
+        <div className="app-panel profile-error" role="alert">
           <p>{profileError}</p>
-          <button className="btn btn-primary" type="button" onClick={getDoctorInfo}>
+          <Button className="app-action-button" type="button" onClick={getDoctorInfo}>
             Try again
-          </button>
+          </Button>
         </div>
       )}
       {doctor && (
-        <Form
-          layout="vertical"
-          onFinish={handleFinish}
-          className="m-3"
-          initialValues={{
-            ...doctor,
-            timings: [
-              moment(doctor.timings[0], "HH:mm"),
-              moment(doctor.timings[1], "HH:mm"),
-            ],
-          }}
-        >
-          <h4 className="">Personal Details : </h4>
-          <Row gutter={20}>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="First Name"
-                name="firstName"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="text" placeholder="your first name" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="Last Name"
-                name="lastName"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="text" placeholder="your last name" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="Phone No"
-                name="phone"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="text" placeholder="your contact no" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="Email"
-                name="email"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="email" placeholder="your email address" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item label="Website" name="website">
-                <Input type="text" placeholder="your website" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="Address"
-                name="address"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="text" placeholder="your clinic address" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <h4>Professional Details :</h4>
-          <Row gutter={20}>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="Specialization"
-                name="specialization"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="text" placeholder="your specialization" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="Experience"
-                name="experience"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="text" placeholder="your experience" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                label="Fees Per Cunsaltation"
-                name="feesPerCunsaltation"
-                required
-                rules={[{ required: true }]}
-              >
-                <Input type="text" placeholder="your contact no" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item label="Timings" name="timings" required>
-                <TimePicker.RangePicker format="HH:mm" />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}></Col>
-            <Col xs={24} md={24} lg={8}>
-              <button className="btn btn-primary form-btn" type="submit">
-                Update
-              </button>
-            </Col>
-          </Row>
-        </Form>
+        <form onSubmit={handleFinish} className="app-panel app-form doctor-profile-form">
+          <h2 className="app-subheading">Personal details</h2>
+          <div className="doctor-profile-form-grid">
+            <div className="doctor-profile-field">
+              <Label htmlFor="firstName">First Name</Label>
+              <Input id="firstName" name="firstName" placeholder="Your first name" defaultValue={doctor.firstName} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input id="lastName" name="lastName" placeholder="Your last name" defaultValue={doctor.lastName} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="phone">Phone No</Label>
+              <Input id="phone" name="phone" placeholder="Your contact number" defaultValue={doctor.phone} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" name="email" type="email" placeholder="Your email address" defaultValue={doctor.email} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="website">Website</Label>
+              <Input id="website" name="website" placeholder="Your website" defaultValue={doctor.website} />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="address">Address</Label>
+              <Input id="address" name="address" placeholder="Your clinic address" defaultValue={doctor.address} required />
+            </div>
+          </div>
+          <h2 className="app-subheading">Professional details</h2>
+          <div className="doctor-profile-form-grid">
+            <div className="doctor-profile-field">
+              <Label htmlFor="specialization">Specialization</Label>
+              <Input id="specialization" name="specialization" placeholder="Your specialization" defaultValue={doctor.specialization} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="experience">Experience</Label>
+              <Input id="experience" name="experience" placeholder="Years of experience" defaultValue={doctor.experience} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="feesPerCunsaltation">Fees Per Consultation</Label>
+              <Input id="feesPerCunsaltation" name="feesPerCunsaltation" placeholder="Consultation fee" defaultValue={doctor.feesPerCunsaltation} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="startTime">Available from</Label>
+              <Input id="startTime" name="startTime" type="time" defaultValue={doctor.timings?.[0] || ""} required />
+            </div>
+            <div className="doctor-profile-field">
+              <Label htmlFor="endTime">Available until</Label>
+              <Input id="endTime" name="endTime" type="time" defaultValue={doctor.timings?.[1] || ""} required />
+            </div>
+          </div>
+          <div className="doctor-profile-submit">
+            <Button className="app-action-button" type="submit">Update</Button>
+          </div>
+        </form>
       )}
-    </div>
+      </main>
+    </>
   );
 };
 

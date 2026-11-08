@@ -5,6 +5,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Bell, CheckCheck, Trash2 } from "lucide-react";
+import { Button } from "../components/ui/button";
+
+const getNotificationPath = (notification) => {
+  if (notification.type === "apply-doctor-request" || notification.data?.doctorId) {
+    return "/admin/doctors";
+  }
+  return notification.data?.onClickPath || notification.onClickPath || "/notification";
+};
 
 const NotificationPage = () => {
   const dispatch = useDispatch();
@@ -64,57 +73,46 @@ const NotificationPage = () => {
     }
   };
   return (
-    <div>
+    <>
       <Layout />
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h4 className="p-3 text-center">Notification Page</h4>
-      <Tabs>
-        <Tabs.TabPane tab="unRead" key={0}>
-          <div className="d-flex justify-content-end">
-            <h4 className="p-2" onClick={handleMarkAllRead}>
-              Mark All Read
-            </h4>
+      <main className="app-page">
+      <p className="home-section-kicker" style={{ textAlign: "left" }}>Your updates</p>
+      <h1 className="app-page-heading">Notifications</h1>
+      <p className="app-page-description">Stay up to date with your care and appointments.</p>
+      <Tabs className="notification-tabs">
+        <Tabs.TabPane tab="Unread" key={0}>
+          <div className="notification-actions">
+            <Button type="button" variant="outline" className="app-action-button app-action-button-secondary" onClick={handleMarkAllRead}>
+              <CheckCheck size={16} aria-hidden="true" /> Mark all as read
+            </Button>
           </div>
-          {user?.notifcation.map((notificationMgs) => (
-            <div className="card" style={{ cursor: "pointer" }}>
-              <div
-                className="card-text"
-                onClick={() => navigate(notificationMgs.onClickPath)}
-              >
-                {notificationMgs.message}
-              </div>
-            </div>
-          ))}
+          <div className="notification-list">
+            {user?.notifcation?.length ? user.notifcation.map((notificationMgs, index) => (
+              <button key={notificationMgs._id || notificationMgs.date || index} type="button" className="notification-item" onClick={() => navigate(getNotificationPath(notificationMgs))}>
+                <span className="notification-icon"><Bell size={17} aria-hidden="true" /></span>
+                <span>{notificationMgs.message}</span>
+              </button>
+            )) : <div className="app-empty-state">You’re all caught up. No unread notifications.</div>}
+          </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab="Read" key={1}>
-          <div className="d-flex justify-content-end">
-            <h4
-              className="p-2 text-primary"
-              style={{ cursor: "pointer" }}
-              onClick={handleDeleteAllRead}
-            >
-              Delete All Read
-            </h4>
+          <div className="notification-actions">
+            <Button type="button" variant="outline" className="app-action-button app-action-button-danger" onClick={handleDeleteAllRead}>
+              <Trash2 size={16} aria-hidden="true" /> Delete all read
+            </Button>
           </div>
-          {user?.seennotification.map((notificationMgs) => (
-            <div className="card" style={{ cursor: "pointer" }}>
-              <div
-                className="card-text"
-                onClick={() => navigate(notificationMgs.onClickPath)}
-              >
-                {notificationMgs.message}
-              </div>
-            </div>
-          ))}
+          <div className="notification-list">
+            {user?.seennotification?.length ? user.seennotification.map((notificationMgs, index) => (
+              <button key={notificationMgs._id || notificationMgs.date || index} type="button" className="notification-item is-read" onClick={() => navigate(getNotificationPath(notificationMgs))}>
+                <span className="notification-icon"><Bell size={17} aria-hidden="true" /></span>
+                <span>{notificationMgs.message}</span>
+              </button>
+            )) : <div className="app-empty-state">No read notifications yet.</div>}
+          </div>
         </Tabs.TabPane>
       </Tabs>
-    </div>
+      </main>
+    </>
   );
 };
 

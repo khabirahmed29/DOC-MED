@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import axios from "axios";
+import { Button } from "../components/ui/button";
 
 const ApplyDoctor = () => {
   const { user } = useSelector((state) => state.user);
@@ -38,19 +39,13 @@ const ApplyDoctor = () => {
     }
   };
   return (
-    <div>
+      <div>
       <Layout />
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <h1 className="text-center">Apply Doctor</h1>
-      <Form layout="vertical" onFinish={handleFinish} className="m-3">
-        <h4 className="">Personal Details : </h4>
+      <main className="app-page">
+      <h1 className="app-page-heading">Apply as a doctor</h1>
+      <p className="app-page-description">Tell us about yourself and your medical practice.</p>
+      <Form layout="vertical" onFinish={handleFinish} className="app-panel app-form">
+        <h2 className="app-subheading">Personal details</h2>
         <Row gutter={20}>
           <Col xs={24} md={24} lg={8}>
             <Form.Item
@@ -108,7 +103,7 @@ const ApplyDoctor = () => {
             </Form.Item>
           </Col>
         </Row>
-        <h4>Professional Details :</h4>
+        <h2 className="app-subheading">Professional details</h2>
         <Row gutter={20}>
           <Col xs={24} md={24} lg={8}>
             <Form.Item
@@ -147,12 +142,11 @@ const ApplyDoctor = () => {
           </Col>
           <Col xs={24} md={24} lg={8}></Col>
           <Col xs={24} md={24} lg={8}>
-            <button className="btn btn-primary form-btn" type="submit">
-              Submit
-            </button>
+            <Button type="submit" className="app-action-button">Submit application</Button>
           </Col>
         </Row>
       </Form>
+      </main>
     </div>
   );
 };

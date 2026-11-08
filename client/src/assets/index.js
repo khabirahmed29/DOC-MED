@@ -20,10 +20,6 @@ import doc1 from "./doc1.jpeg"
 import doc2 from "./doc2.jpg"
 import doc3 from "./doc3.jpg"
 import doc4 from "./doc4.jpg"
-import rev1 from "./rev1.jpg"
-import rev2 from "./rev2.jpg"
-import rev3 from "./rev3.jpeg"
-import rev4 from "./rev4.jpg"
 import eye from "./eye.png"
 import covid from "./covid-19.png"
 import laboratories from "./laboratories.png"
@@ -57,10 +53,6 @@ export{
     doc2,
     doc3,
     doc4,
-    rev1,
-    rev2, 
-    rev3, 
-    rev4,
     eye, 
     covid,
     laboratories,

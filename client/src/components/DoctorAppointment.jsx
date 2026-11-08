@@ -47,10 +47,16 @@ const DoctorAppointments = () => {
   ];
 
   return (
-    <div>
-      <h1>Appoinmtnets Lists</h1>
-      <Table columns={columns} dataSource={appointments} />
-    </div>
+    <main className="app-page">
+      <p className="home-section-kicker" style={{ textAlign: "left" }}>Your care</p>
+      <h1 className="app-page-heading">My appointments</h1>
+      <p className="app-page-description">Review the date, time, and status of your appointments.</p>
+      {appointments.length ? (
+        <Table rowKey="_id" columns={columns} dataSource={appointments} />
+      ) : (
+        <div className="app-empty-state">You don’t have any appointments yet.</div>
+      )}
+    </main>
   );
 };
 

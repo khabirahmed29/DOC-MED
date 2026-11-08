@@ -27,16 +27,15 @@ const Doctors = () => {
     getUserData();
   }, []);
   return (
-    <section>
+    <section id="doctors" className="home-section">
       <div className="library">
-        <h3 className="sub-heading"> Our Doctors </h3>
-        <h1 className="heading"> Best around you </h1>
-        {/* <Row className="">
-         */}
-        <div className="box-container">
-          {doctors && doctors.map((doctor) => <DoctorList doctor={doctor} />)}
+        <p className="home-section-kicker">Meet your care team</p>
+        <h2 className="home-section-heading">Doctors near you</h2>
+        <div className="home-doctor-grid">
+          {doctors?.length ? doctors.map((doctor) => (
+            <DoctorList key={doctor._id} doctor={doctor} />
+          )) : <div className="app-empty-state">No doctors are available right now.</div>}
         </div>
-        {/* </Row> */}
       </div>
     </section>
   );

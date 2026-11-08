@@ -1,11 +1,10 @@
 import React from "react";
+import { LoaderCircle } from "lucide-react";
 
 const Spinner = () => {
   return (
-    <div class="d-flex justify-content-center spinner">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+    <div className="spinner app-spinner" role="status" aria-label="Loading">
+      <LoaderCircle size={42} strokeWidth={2} aria-hidden="true" />
     </div>
   );
 };
