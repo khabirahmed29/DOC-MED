@@ -191,18 +191,23 @@ section.hero-section {
   background: #e0f2fe;
 }
 
-.hero-image-caption strong,
-.hero-image-caption small {
+.hero-caption-content {
+  min-width: 0;
+  padding: 0 !important;
+}
+
+.hero-caption-title,
+.hero-caption-description {
   display: block;
 }
 
-.hero-image-caption strong {
+.hero-caption-title {
   color: #0f172a;
   font-size: 13px;
   font-weight: 650;
 }
 
-.hero-image-caption small {
+.hero-caption-description {
   margin-top: 3px;
   color: #64748b;
   font-size: 12px;

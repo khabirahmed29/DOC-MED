@@ -2,6 +2,13 @@ import React from "react";
 import { ArrowDown, ArrowRight, HeartPulse, Stethoscope } from "lucide-react";
 import { hero } from "../assets";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "./ui/card";
 import "../styles/hero.css";
 
 const scrollToSection = (sectionId) => {
@@ -12,10 +19,10 @@ const Hero = () => (
   <section className="hero-section" id="home">
     <div className="hero-inner">
       <div className="hero-copy">
-        <div className="hero-eyebrow">
+        <Badge variant="secondary" className="hero-eyebrow">
           <span className="hero-eyebrow-icon"><HeartPulse size={16} aria-hidden="true" /></span>
           <span>Care that puts you first</span>
-        </div>
+        </Badge>
         <h1>
           We’re determined for <span>your better life.</span>
         </h1>
@@ -53,13 +60,15 @@ const Hero = () => (
         <div className="hero-image-frame">
           <img src={hero} className="hero-image" alt="A family smiling together" />
         </div>
-        <div className="hero-image-caption">
+        <Card className="hero-image-caption">
           <span className="hero-caption-icon"><Stethoscope size={18} aria-hidden="true" /></span>
-          <span>
-            <strong>Care for every chapter</strong>
-            <small>Here for you and your family</small>
-          </span>
-        </div>
+          <CardContent className="hero-caption-content">
+            <CardTitle className="hero-caption-title">Care for every chapter</CardTitle>
+            <CardDescription className="hero-caption-description">
+              Here for you and your family
+            </CardDescription>
+          </CardContent>
+        </Card>
       </div>
     </div>
   </section>

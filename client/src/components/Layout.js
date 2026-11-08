@@ -28,6 +28,25 @@ const menuIcons = {
   Profile: UserRound,
 };
 
+const avatarColors = [
+  "#1685b4",
+  "#7c3aed",
+  "#15803d",
+  "#b45309",
+  "#be185d",
+  "#0e7490",
+  "#c2410c",
+  "#4f46e5",
+];
+
+const getAvatarColor = (name = "") => {
+  const hash = [...name.toLowerCase()].reduce(
+    (value, character) => (value * 31 + character.charCodeAt(0)) >>> 0,
+    0
+  );
+  return avatarColors[hash % avatarColors.length];
+};
+
 const Layout = () => {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
@@ -174,7 +193,11 @@ const Layout = () => {
               aria-expanded={accountOpen}
               onClick={() => setAccountOpen((open) => !open)}
             >
-              <span className="site-avatar" aria-hidden="true">
+              <span
+                className="site-avatar"
+                style={{ backgroundColor: getAvatarColor(user?.name || "user") }}
+                aria-hidden="true"
+              >
                 {initials}
               </span>
               <span className="site-user-name">{user?.name || "Account"}</span>

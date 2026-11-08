@@ -2,15 +2,18 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 const DoctorList = ({ doctor }) => {
   const navigate = useNavigate();
   return (
-    <article className="doctor-card">
-      <div className="doctor-card-header">
-        Dr. {doctor.firstName} {doctor.lastName}
-      </div>
-      <div className="doctor-card-content">
+    <Card className="doctor-card">
+      <CardHeader className="doctor-card-header">
+        <CardTitle>
+          Dr. {doctor.firstName} {doctor.lastName}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="doctor-card-content">
         <p>
           <b>Specialization</b> {doctor.specialization}
         </p>
@@ -30,8 +33,8 @@ const DoctorList = ({ doctor }) => {
         >
           Book an appointment <ArrowRight size={16} aria-hidden="true" />
         </Button>
-      </div>
-    </article>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -15,10 +15,6 @@ import {
   doc2,
   doc3,
   doc4,
-  rev1,
-  rev2,
-  rev3,
-  rev4,
   covid,
   laboratories,
   nicotine,
@@ -112,26 +108,22 @@ export const doctors = [
 ];
 export const reviews = [
   {
-    img: rev1,
-    name: "jason",
+    name: "Jason Wong",
     title: "Best Tech",
     rev: "This medical and health care facility distinguishes itself from the competition by providing technologically advanced medical and health care.",
   },
   {
-    img: rev2,
-    name: "jill",
+    name: "Jill Smith",
     title: "Best Facilities",
     rev: "A mobile app and a website are available via which you can easily schedule appointments, get online consultations, and see physicians, who will assist you through the whole procedure.",
   },
   {
-    img: rev3,
-    name: "Naveen",
+    name: "Naveen Patel",
     title: "Friendly People",
     rev: " I believe that the Livedoc staff is doing an outstanding job. Highly recommended their health care services.",
   },
   {
-    img: rev4,
-    name: "harry",
+    name: "Harry Johnson",
     title: "Hygienic",
     rev: "And all of the prescriptions, medications, and other services they offer are 100% genuine, medically verified, and proved.",
   },
