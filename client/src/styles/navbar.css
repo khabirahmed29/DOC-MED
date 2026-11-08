@@ -100,7 +100,8 @@ header.site-header {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  margin-left: -12px;
 }
 
 .site-nav-actions .site-icon-button,
@@ -120,6 +121,28 @@ header.site-header {
   position: relative;
   width: 40px;
   padding: 0;
+}
+
+.site-nav-actions .site-notification-button {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #334155;
+}
+
+.site-nav-actions .site-notification-button:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+  color: #0f172a;
+}
+
+.site-nav-actions .site-notification-button svg {
+  width: 24px !important;
+  height: 24px !important;
+  stroke-width: 2;
 }
 
 .site-notification-count {

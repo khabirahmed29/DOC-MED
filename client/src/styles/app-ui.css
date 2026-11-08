@@ -22,6 +22,11 @@
   font-size: 16px;
 }
 
+.app-page.app-admin-page {
+  width: calc(100% - 48px);
+  max-width: none;
+}
+
 .app-page-heading {
   margin: 0;
   color: var(--ui-ink);
@@ -306,6 +311,14 @@ button.app-action-button-danger:hover,
   color: #0369a1;
 }
 
+.profile-avatar {
+  border-radius: 50%;
+  color: #fff;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
 .profile-summary h2 {
   margin: 0 0 4px;
   color: var(--ui-ink);
@@ -442,20 +455,38 @@ button.app-action-button-danger:hover,
 }
 
 .admin-doctors-table-container {
-  max-width: 1100px;
+  width: 100%;
   overflow-x: auto;
   border: 1px solid var(--ui-border);
   border-radius: 13px;
   background: #fff;
 }
 
-.admin-doctors-table-container .shadcn-table {
+.admin-users-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--ui-border);
+  border-radius: 13px;
+  background: #fff;
+}
+
+.doctor-appointments-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--ui-border);
+  border-radius: 13px;
+  background: #fff;
+}
+
+.admin-doctors-table-container .shadcn-table,
+.admin-users-table-container .shadcn-table,
+.doctor-appointments-table-container .shadcn-table {
   width: 100%;
   min-width: 880px;
   table-layout: fixed;
   border-collapse: collapse;
   color: #334155;
-  font-size: 14px;
+  font-size: 15px;
   text-align: left;
 }
 
@@ -464,26 +495,33 @@ button.app-action-button-danger:hover,
 .admin-doctors-phone-column { width: 28%; }
 .admin-doctors-actions-column { width: 280px; }
 
-.admin-doctors-table-container .shadcn-table-head {
+.admin-doctors-table-container .shadcn-table-head,
+.admin-users-table-container .shadcn-table-head,
+.doctor-appointments-table-container .shadcn-table-head {
   height: 48px;
   padding: 0 16px;
   background: #f8fafc;
   color: #475569;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 650;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.admin-doctors-table-container .shadcn-table-cell {
+.admin-doctors-table-container .shadcn-table-cell,
+.admin-users-table-container .shadcn-table-cell,
+.doctor-appointments-table-container .shadcn-table-cell {
   height: 72px;
   padding: 12px 16px;
   border-top: 1px solid #eef2f7;
   color: #334155;
+  font-size: 15px;
   vertical-align: middle;
 }
 
-.admin-doctors-table-container .shadcn-table-row:hover {
+.admin-doctors-table-container .shadcn-table-row:hover,
+.admin-users-table-container .shadcn-table-row:hover,
+.doctor-appointments-table-container .shadcn-table-row:hover {
   background: #f8fafc;
 }
 
@@ -495,6 +533,23 @@ button.app-action-button-danger:hover,
 
 .admin-doctors-table-container .admin-doctor-actions .app-action-button {
   min-width: 96px;
+  padding-inline: 10px;
+}
+
+.appointment-id-cell {
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 13px !important;
+}
+
+.appointment-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.appointment-actions .app-action-button {
+  min-width: 88px;
   padding-inline: 10px;
 }
 
@@ -529,6 +584,55 @@ button.app-action-button-danger:hover,
 }
 .profile-error { max-width: 600px; border-color: #fecaca; background: #fffafa; }
 .profile-error p { margin: 0 0 14px; color: #991b1b; }
+
+.doctor-profile-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 20px;
+  margin-bottom: 26px;
+}
+
+.doctor-profile-field {
+  display: grid;
+  gap: 8px;
+}
+
+.doctor-profile-field label {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.doctor-profile-field input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  padding: 0 12px;
+  background: #fff;
+  color: #0f172a;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px;
+}
+
+.doctor-profile-field input:focus-visible {
+  border-color: #0ea5e9;
+  outline: 2px solid rgba(14, 165, 233, 0.2);
+  outline-offset: 1px;
+}
+
+.doctor-profile-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .doctor-profile-form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .doctor-profile-form-grid { grid-template-columns: 1fr; }
+}
 
 .doctor-card {
   overflow: hidden;

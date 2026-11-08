@@ -64,7 +64,7 @@ const Doctors = () => {
   return (
     <>
       <Layout />
-      <main className="app-page">
+      <main className="app-page app-admin-page">
         <p className="home-section-kicker" style={{ textAlign: "left" }}>Administration</p>
         <h1 className="app-page-heading">Doctors</h1>
         <p className="app-page-description">Review doctor applications and account status.</p>
