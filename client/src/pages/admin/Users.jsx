@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "./../../components/Layout";
 import axios from "axios";
 import { Table } from "antd";
+import { Button } from "../../components/ui/button";
 const Users = () => {
   const [users, setUsers] = useState([]);
 
@@ -44,25 +45,21 @@ const Users = () => {
       title: "Actions",
       dataIndex: "actions",
       render: (text, record) => (
-        <div className="d-flex">
-          <button className="btn btn-danger">Block</button>
-        </div>
+        <Button type="button" className="app-action-button app-action-button-danger">Block</Button>
       ),
     },
   ];
 
   return (
-    <div>
+    <>
       <Layout />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h1 className="text-center m-2">Users List</h1>
-      <Table columns={columns} dataSource={users} />
-    </div>
+      <main className="app-page">
+        <p className="home-section-kicker" style={{ textAlign: "left" }}>Administration</p>
+        <h1 className="app-page-heading">Users</h1>
+        <p className="app-page-description">View and manage DOCMED user accounts.</p>
+        <Table rowKey="_id" columns={columns} dataSource={users} />
+      </main>
+    </>
   );
 };
 

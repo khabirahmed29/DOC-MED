@@ -104,7 +104,7 @@ header.site-header {
 }
 
 .site-nav-actions .site-icon-button,
-.site-nav-actions .site-logout-button {
+.site-nav-actions .site-user-trigger {
   display: inline-flex;
   min-width: 40px;
   height: 40px;
@@ -141,49 +141,149 @@ header.site-header {
   line-height: 1;
 }
 
-.site-account-link {
-  display: inline-flex;
-  max-width: 190px;
-  height: 40px;
-  align-items: center;
-  gap: 8px;
-  padding: 0 10px;
-  border-radius: 9px;
+.site-user-menu {
+  position: relative;
+}
+
+.site-nav-actions .site-user-trigger {
+  height: 42px;
+  padding: 0 8px;
+  border-radius: 999px;
   color: #334155;
   font-family: inherit;
   font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
+  box-shadow: none;
 }
 
-.site-account-link:hover {
+.site-nav-actions .site-user-trigger:hover {
   background: rgba(255, 255, 255, 0.42);
   color: #0f172a;
 }
 
-.site-account-link span {
+.site-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  background: #1685b4;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.site-user-name {
+  display: inline-block;
+  max-width: 145px;
   overflow: hidden;
   color: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.site-nav-actions .site-logout-button {
-  padding: 0 12px;
-  border-color: #e2e8f0;
-  background: rgba(255, 255, 255, 0.72);
-  color: #334155;
-  box-shadow: none;
+.site-account-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 1010;
+  width: 232px;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
+  color: #0f172a;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.site-nav-actions .site-logout-button:hover {
-  background: #fff;
+.site-account-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 11px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.site-account-heading-name {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.site-account-email {
+  overflow: hidden;
+  color: #64748b;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.site-account-menu-item {
+  display: flex;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #334155;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+  text-decoration: none;
+}
+
+.site-account-menu-item:hover {
+  background: #f1f5f9;
   color: #0f172a;
 }
 
-.site-menu-button,
-.site-nav-mobile-actions {
+.site-account-menu-item:last-child {
+  color: #b42318;
+}
+
+.site-account-menu-item:last-child:hover {
+  background: #fef2f2;
+  color: #b42318;
+}
+
+.site-mobile-notifications {
+  display: none;
+}
+
+.site-menu-button {
   display: none !important;
+}
+
+.site-notification-tooltip {
+  z-index: 1101 !important;
+  padding: 7px 11px !important;
+  border: 1px solid #334155 !important;
+  border-radius: 7px !important;
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2) !important;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  white-space: nowrap;
+}
+
+.site-notification-tooltip .site-tooltip-arrow {
+  width: 9px;
+  height: 5px;
+  fill: #0f172a;
 }
 
 @media (max-width: 1050px) {
@@ -202,8 +302,8 @@ header.site-header {
     font-size: 13px;
   }
 
-  .site-account-link {
-    max-width: 130px;
+  .site-user-name {
+    max-width: 110px;
   }
 }
 
@@ -236,10 +336,12 @@ header.site-header {
     padding-inline: 12px;
   }
 
-  .site-nav-actions .site-account-link,
-  .site-nav-actions .site-notification-button,
-  .site-nav-actions .site-logout-button {
+  .site-nav-actions .site-notification-button {
     display: none;
+  }
+
+  .site-mobile-notifications {
+    display: inline-flex;
   }
 
   .site-nav-actions .site-menu-button {
@@ -248,17 +350,12 @@ header.site-header {
     height: 42px;
   }
 
-  .site-nav-mobile-actions {
-    display: flex !important;
-    flex-direction: column;
-    gap: 2px;
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(15, 23, 42, 0.14);
+  .site-nav-actions .site-user-trigger {
+    padding: 0 4px;
   }
 
-  .site-logout-link {
-    width: 100%;
-    text-align: left;
+  .site-user-name,
+  .site-user-trigger > svg:last-child {
+    display: none;
   }
 }

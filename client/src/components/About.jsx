@@ -1,10 +1,11 @@
 import { docnurse, healthCare } from "../assets";
+import { Headset, HeartPulse, Stethoscope } from "lucide-react";
 
 const About = () => {
   return (
-    <section className="about" id="about">
-      <h3 className="sub-heading"> about us </h3>
-      <h1 className="heading"> why choose us? </h1>
+    <section className="about about-section home-section" id="about">
+      <p className="home-section-kicker">About DOCMED</p>
+      <h2 className="home-section-heading">Why choose us?</h2>
 
       <div className="row">
         <div className="image">
@@ -12,7 +13,7 @@ const About = () => {
             className="about-image"
             src={docnurse}
             style={{ height: "50rem", borderRadius: "5rem" }}
-            alt=""
+            alt="A doctor and nurse providing care"
           />
         </div>
 
@@ -30,15 +31,15 @@ const About = () => {
           </p>
           <div className="icons-container">
             <div className="icons">
-              <i class="fa-solid fa-house-medical-circle-check"></i>
+              <HeartPulse aria-hidden="true" />
               <span>Clinical Excellence</span>
             </div>
             <div className="icons">
-              <i class="fa-solid fa-user-doctor"></i>
+              <Stethoscope aria-hidden="true" />
               <span>Personalized Care</span>
             </div>
             <div className="icons">
-              <i className="fas fa-headset"></i>
+              <Headset aria-hidden="true" />
               <span>24/7 service</span>
             </div>
           </div>

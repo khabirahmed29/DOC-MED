@@ -41,6 +41,10 @@ const getAllDoctorsController = async (req, res) => {
 const changeAccountStatusController = async (req, res) => {
   try {
     const { doctorId, status } = req.body;
+    const allowedStatuses = ["approved", "rejected", "removed"];
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).send({ success: false, message: "Invalid doctor account status." });
+    }
     const doctor = await doctorModel.findById(doctorId);
     if (!doctor) {
       return res.status(404).send({ success: false, message: "Doctor not found." });
@@ -51,13 +55,17 @@ const changeAccountStatusController = async (req, res) => {
     }
     doctor.status = status;
     await doctor.save();
-    const notifcation = user.notifcation;
+    const notifcation = user.notifcation || [];
+    const notificationMessage = status === "removed"
+      ? "Your doctor account has been removed."
+      : `Your doctor account request has been ${status}.`;
     notifcation.push({
       type: "doctor-account-request-updated",
-      message: `Your Doctor Account Request Has ${status} `,
+      message: notificationMessage,
       onClickPath: "/notification",
     });
-    user.isDoctor = status === "approved" ? true : false;
+    user.notifcation = notifcation;
+    user.isDoctor = status === "approved";
     await user.save();
     res.status(201).send({
       success: true,

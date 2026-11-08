@@ -31,7 +31,7 @@ function App() {
           dispatch(clearUser());
         }
         return Promise.reject(error);
-      }
+      },
     );
 
     return () => axios.interceptors.response.eject(interceptorId);
@@ -39,12 +39,11 @@ function App() {
 
   return (
     <>
-     <BrowserRouter>
+      <BrowserRouter>
         {loading ? (
           <Spinner />
         ) : (
           <Routes>
-            
             <Route
               path="/apply-doctor"
               element={

@@ -2,16 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "antd/dist/reset.css";
 import "./index.css";
+import "./styles/app-ui.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <TooltipProvider>
+        <App />
+      </TooltipProvider>
     </React.StrictMode>
   </Provider>
 );

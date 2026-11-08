@@ -6,6 +6,8 @@ import { DatePicker, message, TimePicker } from "antd";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
+import { CalendarDays, Clock3, Wallet } from "lucide-react";
+import { Button } from "../components/ui/button";
 
 const BookingPage = () => {
   const { user } = useSelector((state) => state.user);
@@ -107,56 +109,58 @@ const BookingPage = () => {
     <div>
       <Layout />
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h3>Booking Page</h3>
-      <div className="container m-2">
-        {doctors && (
-          <div>
-            <h4>
-              Dr.{doctors.firstName} {doctors.lastName}
-            </h4>
-            <h4>Fees : {doctors.feesPerCunsaltation}</h4>
-            <h4>
-              Timings : {doctors.timings && doctors.timings[0]} -{" "}
-              {doctors.timings && doctors.timings[1]}{" "}
-            </h4>
-            <div className="d-flex flex-column w-50">
+      <main className="app-page">
+        <h1 className="app-page-heading">Book an appointment</h1>
+        <p className="app-page-description">Choose a date and time that works for you.</p>
+        {doctors?._id && (
+          <section className="app-panel booking-panel">
+            <div className="booking-doctor-summary">
+              <span className="booking-doctor-icon"><CalendarDays size={22} aria-hidden="true" /></span>
+              <div>
+                <p className="booking-overline">Appointment with</p>
+                <h2>Dr. {doctors.firstName} {doctors.lastName}</h2>
+                <p>{doctors.specialization || "Medical specialist"}</p>
+              </div>
+            </div>
+            <div className="booking-facts">
+              <div><Wallet size={17} aria-hidden="true" /><span>Consultation fee</span><strong>{doctors.feesPerCunsaltation}</strong></div>
+              <div><Clock3 size={17} aria-hidden="true" /><span>Available hours</span><strong>{doctors.timings?.[0]} – {doctors.timings?.[1]}</strong></div>
+            </div>
+            <div className="booking-form">
+              <label htmlFor="booking-date">Date</label>
               <DatePicker
-                className="m-2"
+                id="booking-date"
                 format="DD-MM-YYYY"
                 onChange={(value) => {
                   setIsAvailable(false);
                   setDate(moment(value).format("DD-MM-YYYY"));
                 }}
               />
+              <label htmlFor="booking-time">Time</label>
               <TimePicker
+                id="booking-time"
                 format="HH:mm"
-                className="m-2"
                 onChange={(value) => {
                   setIsAvailable(false);
                   setTime(moment(value).format("HH:mm"));
                 }}
               />
-              <button
-                className="btn btn-primary mt-2"
+              <Button
+                type="button"
+                className="app-action-button"
                 onClick={handleAvailability}
               >
                 Check Availability
-              </button>
+              </Button>
               {isAvailable && (
-                <button className="btn btn-dark mt-2" onClick={handleBooking}>
-                  Book Now
-                </button>
+                <Button type="button" className="app-action-button" onClick={handleBooking}>
+                  Confirm appointment
+                </Button>
               )}
             </div>
-          </div>
+          </section>
         )}
-      </div>
+      </main>
     </div>
   );
 };

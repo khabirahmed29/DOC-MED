@@ -110,8 +110,9 @@ const applyDoctorController = async (req, res) => {
       data: {
         doctorId: newDoctor._id,
         name: newDoctor.firstName + " " + newDoctor.lastName,
-        onClickPath: "/admin/docotrs",
+        onClickPath: "/admin/doctors",
       },
+      onClickPath: "/admin/doctors",
     });
     await userModel.findByIdAndUpdate(adminUser._id, { notifcation });
     res.status(201).send({

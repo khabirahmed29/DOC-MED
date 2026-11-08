@@ -4,7 +4,7 @@ import { locations, quickLinks, contactinfo, social } from "../constants";
 
 const Footer = ()=>{
     return (
-        <section className="footer">
+        <section className="footer app-footer">
             {/* <hr style={{
                 background: 'black',
                 color: 'black',

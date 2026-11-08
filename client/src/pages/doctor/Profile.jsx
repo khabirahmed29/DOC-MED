@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../../redux/features/alertSlice";
 import moment from "moment";
+import { Button } from "../../components/ui/button";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -85,30 +86,27 @@ const Profile = () => {
     //eslint-disable-next-line
   }, []);
   return (
-    <div>
+    <>
       <Layout />
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h1>Manage Profile</h1>
+      <main className="app-page">
+      <p className="home-section-kicker" style={{ textAlign: "left" }}>Doctor workspace</p>
+      <h1 className="app-page-heading">Manage profile</h1>
+      <p className="app-page-description">Keep your professional details and availability up to date.</p>
       {isLoadingProfile && <p className="m-3">Loading doctor profile…</p>}
       {!isLoadingProfile && profileError && (
-        <div className="m-3" role="alert">
+        <div className="app-panel profile-error" role="alert">
           <p>{profileError}</p>
-          <button className="btn btn-primary" type="button" onClick={getDoctorInfo}>
+          <Button className="app-action-button" type="button" onClick={getDoctorInfo}>
             Try again
-          </button>
+          </Button>
         </div>
       )}
       {doctor && (
         <Form
           layout="vertical"
           onFinish={handleFinish}
-          className="m-3"
+          className="app-panel app-form"
           initialValues={{
             ...doctor,
             timings: [
@@ -117,7 +115,7 @@ const Profile = () => {
             ],
           }}
         >
-          <h4 className="">Personal Details : </h4>
+          <h2 className="app-subheading">Personal details</h2>
           <Row gutter={20}>
             <Col xs={24} md={24} lg={8}>
               <Form.Item
@@ -175,7 +173,7 @@ const Profile = () => {
               </Form.Item>
             </Col>
           </Row>
-          <h4>Professional Details :</h4>
+          <h2 className="app-subheading">Professional details</h2>
           <Row gutter={20}>
             <Col xs={24} md={24} lg={8}>
               <Form.Item
@@ -214,14 +212,15 @@ const Profile = () => {
             </Col>
             <Col xs={24} md={24} lg={8}></Col>
             <Col xs={24} md={24} lg={8}>
-              <button className="btn btn-primary form-btn" type="submit">
+              <Button className="app-action-button" type="submit">
                 Update
-              </button>
+              </Button>
             </Col>
           </Row>
         </Form>
       )}
-    </div>
+      </main>
+    </>
   );
 };
 

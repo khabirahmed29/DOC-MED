@@ -5,20 +5,20 @@ const Reviews = () => {
   return (
     <div className="box-container">
       {reviews.map((review, index) => (
-        <div className="box">
-          <div className="image">
+        <article className="review-card" key={`${review.name}-${index}`}>
+          <div className="review-card-image">
             <img src={review.img} alt="" />
           </div>
-          <div className="content">
+          <div className="review-card-content">
             <h3>{review.name}</h3>
-            <p style={{ color: "#47a3d4" }}>
+            <p className="review-title">
               {review.title} <br />{" "}
             </p>
             <p>{review.rev}</p>
             <br />
             <p> </p>
           </div>
-        </div>
+        </article>
       ))}
     </div>
   );

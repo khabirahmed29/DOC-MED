@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { adminMenu, userMenu } from "../Data/data";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { message } from "antd";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import {
   Bell,
   CalendarDays,
+  ChevronDown,
   House,
   LogOut,
   Menu,
@@ -31,6 +33,8 @@ const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const accountMenuRef = useRef(null);
 
   const doctorMenu = [
     { name: "Appointments", path: "/doctor-appointments" },
@@ -41,25 +45,63 @@ const Layout = () => {
     : user?.isDoctor
       ? doctorMenu
       : userMenu;
+  const navigationMenu = sidebarMenu.filter((item) => item.name !== "Profile");
   const notificationCount = user?.notifcation?.length || 0;
+  const accountPath = user?.isDoctor
+    ? `/doctor/profile/${user._id}`
+    : "/profile";
+  const initials =
+    user?.name
+      ?.trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase() || "U";
 
   const closeMenu = () => setMenuOpen(false);
+  const closeAccountMenu = () => setAccountOpen(false);
   const handleLogout = () => {
+    closeAccountMenu();
     localStorage.clear();
     message.success("Logout Successfully");
     navigate("/login");
   };
 
+  useEffect(() => {
+    if (!accountOpen) return undefined;
+
+    const closeOnOutsideClick = (event) => {
+      if (!accountMenuRef.current?.contains(event.target))
+        setAccountOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setAccountOpen(false);
+    };
+
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [accountOpen]);
+
   return (
     <header className="site-header">
       <div className="site-nav-inner">
         <Link to="/" className="site-brand" onClick={closeMenu}>
-          <span className="site-brand-icon"><Stethoscope aria-hidden="true" /></span>
+          <span className="site-brand-icon">
+            <Stethoscope aria-hidden="true" />
+          </span>
           <span>DOCMED</span>
         </Link>
 
-        <nav className={`site-nav-links${menuOpen ? " is-open" : ""}`} aria-label="Main navigation">
-          {sidebarMenu.map((item) => {
+        <nav
+          className={`site-nav-links${menuOpen ? " is-open" : ""}`}
+          aria-label="Main navigation"
+        >
+          {navigationMenu.map((item) => {
             const Icon = menuIcons[item.name] || House;
             const isActive = location.pathname === item.path;
             return (
@@ -76,46 +118,106 @@ const Layout = () => {
             );
           })}
 
-          <div className="site-nav-mobile-actions">
-            <Link to="/notification" className="site-nav-link" onClick={closeMenu}>
-              <Bell size={17} aria-hidden="true" />
-              <span>Notifications{notificationCount > 0 ? ` (${notificationCount})` : ""}</span>
-            </Link>
-            <Link to={user?.isDoctor ? `/doctor/profile/${user._id}` : "/profile"} className="site-nav-link" onClick={closeMenu}>
-              <UserRound size={17} aria-hidden="true" />
-              <span>{user?.name || "Profile"}</span>
-            </Link>
-            <button type="button" className="site-nav-link site-logout-link" onClick={handleLogout}>
-              <LogOut size={17} aria-hidden="true" />
-              <span>Logout</span>
-            </button>
-          </div>
+          <Link
+            to="/notification"
+            className="site-nav-link site-mobile-notifications"
+            onClick={closeMenu}
+          >
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Bell size={17} aria-hidden="true" />
+              </TooltipTrigger>
+              <TooltipContent side="top" className="site-notification-tooltip">
+                {notificationCount > 0
+                  ? `${notificationCount} unread notifications`
+                  : "No new notifications"}
+              </TooltipContent>
+            </Tooltip>
+            <span>
+              Notifications
+              {notificationCount > 0 ? ` (${notificationCount})` : ""}
+            </span>
+          </Link>
         </nav>
 
         <div className="site-nav-actions">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="site-icon-button site-notification-button"
-            aria-label={`Notifications${notificationCount ? `, ${notificationCount} unread` : ""}`}
-            onClick={() => navigate("/notification")}
-          >
-            <Bell size={19} aria-hidden="true" />
-            {notificationCount > 0 && <span className="site-notification-count">{notificationCount}</span>}
-          </Button>
-          <Link to={user?.isDoctor ? `/doctor/profile/${user._id}` : "/profile"} className="site-account-link">
-            <UserRound size={17} aria-hidden="true" />
-            <span>{user?.name || "Profile"}</span>
-          </Link>
-          <Button variant="outline" size="sm" className="site-logout-button" onClick={handleLogout}>
-            <LogOut size={16} aria-hidden="true" />
-            <span>Logout</span>
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="site-icon-button site-notification-button"
+                aria-label={`Notifications${notificationCount ? `, ${notificationCount} unread` : ""}`}
+                onClick={() => navigate("/notification")}
+              >
+                <Bell size={19} aria-hidden="true" />
+                {notificationCount > 0 && (
+                  <span className="site-notification-count">
+                    {notificationCount}
+                  </span>
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="site-notification-tooltip">
+              {notificationCount > 0
+                ? `${notificationCount} unread notifications`
+                : "No new notifications"}
+            </TooltipContent>
+          </Tooltip>
+          <div className="site-user-menu" ref={accountMenuRef}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="site-user-trigger"
+              aria-label={`Account menu for ${user?.name || "user"}`}
+              aria-haspopup="menu"
+              aria-expanded={accountOpen}
+              onClick={() => setAccountOpen((open) => !open)}
+            >
+              <span className="site-avatar" aria-hidden="true">
+                {initials}
+              </span>
+              <span className="site-user-name">{user?.name || "Account"}</span>
+              <ChevronDown size={15} aria-hidden="true" />
+            </Button>
+            {accountOpen && (
+              <div className="site-account-dropdown" role="menu">
+                <div className="site-account-heading">
+                  <span className="site-account-heading-name">
+                    {user?.name || "Your account"}
+                  </span>
+                  {user?.email && (
+                    <span className="site-account-email">{user.email}</span>
+                  )}
+                </div>
+                <Link
+                  to={accountPath}
+                  role="menuitem"
+                  className="site-account-menu-item"
+                  onClick={closeAccountMenu}
+                >
+                  <UserRound size={17} aria-hidden="true" />
+                  <span>Profile</span>
+                </Link>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="site-account-menu-item"
+                  onClick={handleLogout}
+                >
+                  <LogOut size={17} aria-hidden="true" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
           <Button
             variant="ghost"
             size="sm"
             className="site-icon-button site-menu-button"
-            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
           >
